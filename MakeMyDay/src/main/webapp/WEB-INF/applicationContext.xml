@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd" >
+
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    
+    <context:component-scan base-package="Components"/>
+    <context:annotation-config/>
+    
+    <bean id="dataSource"
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+        p:driverClassName="${jdbc.driverClassName}"
+        p:url="${jdbc.url}"
+        p:username="${jdbc.username}"
+        p:password="${jdbc.password}">
+    </bean>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+            <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />
+            <property name="persistenceUnitName" value="MakeMyDayPU" /> 
+            <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    
+    <bean id="viewResolverResource"
+            class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+            p:prefix="/WEB-INF/jsp/"
+            p:suffix=".jsp"
+    />
+    
+    <bean id="eventTypeWordDao" class="Components.Repositories.EventTypeWordDao"/>
+    <bean id="keyWordDao" class="Components.Repositories.KeyWordDao"/>
+    <bean id="eventTypeDao" class="Components.Repositories.EventTypeDao"/>
+    <bean id="eventDao" class="Components.Repositories.EventDao"/>
+    <bean id="siteDao" class="Components.Repositories.SiteDao"/>
+    <bean id="planDao" class="Components.Repositories.PlanDao"/>
+    <bean id="planMapper" class="Components.Mappers.PlanMapper"/>
+    <bean id="keyWordService" class="Components.Services.KeyWordService"/>
+    <bean id="planService" class="Components.Services.PlanService"/>
+    <bean id="itemClassDao" class="Components.Repositories.ItemClassDao"/>
+    <bean id="itemTemplateDao" class="Components.Repositories.ItemTemplateDao"/>
+    <bean id="eventTypeMapper" class="Components.Mappers.EventTypeMapper"/>
+    <bean id="eventTypeService" class="Components.Services.EventTypeService"/>
+    <bean id="siteService" class="Components.Services.SiteService"/>
+    <bean id="eventService" class="Components.Services.EventService"/>
+    <bean id="htmlParser" class="Components.Parser.HtmlParser"/>
+    <bean id="propertiesService" class="Components.Services.PropertiesService"/>
+    <bean id="mailService" class="Components.Services.MailService"/>
+    
+    <task:scheduled-tasks scheduler="scheduler">
+        <task:scheduled ref="htmlParser" method="scheduledSearch" cron="0 0 10 * * *" />
+    </task:scheduled-tasks>
+    <task:scheduler id="scheduler"/>
+    
+    <task:scheduled-tasks scheduler="schedulerNotifications">
+        <task:scheduled ref="mailService" method="checkForNotifications" cron="0 0 10 * * *" />
+    </task:scheduled-tasks>
+    <task:scheduler id="schedulerNotifications"/>
+</beans>

@@ -1,0 +1,63 @@
+/*
+    titlu: rgb(248, 255, 229) - Light Yellow;
+    background: rgb(255, 149, 5) - Cocoa Brown;
+    text: rgb(95, 84, 73) - Umber;
+    background-menu: rgb(255, 182, 39) - Vivid Gamboge;
+    content: rgb(215, 205, 204) - Light Grey;
+*/
+
+/** MAIN VISUALS **/
+
+*{
+    color: rgb(95, 84, 73);
+    margin: 0px;
+    padding:0px;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 2vmin;
+}
+
+h1, h2{
+    font-size:2vw;
+}
+
+#title{
+    color : rgb(248, 255, 229);
+    font-size: 300%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.subTitle{
+    color : rgb(248, 255, 229);
+    font-size: 200%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+body{
+    text-align: center;
+    background-color: rgb(255, 149, 5);
+}
+
+header{
+    align-content: center;
+}
+
+.buttonNav{
+    display: inline;
+    padding-right: 5%;
+    padding-left: 5%;
+    font-size:150%;
+}
+
+.navbar{
+    background-color: rgb(255, 182, 39);
+}
+
+.content{
+    margin-bottom: 10vw;
+}
+
+img{
+    width:10vw;
+}

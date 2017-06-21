@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="MakeMyDayPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>Entities.Event</class>
+    <class>Entities.Plan</class>
+    <class>Entities.ItemClass</class>
+    <class>Entities.ItemTemplate</class>
+    <class>Entities.SiteTemplate</class>
+    <class>Entities.AccessLog</class>
+    <class>Entities.User</class>
+    <class>Entities.EventType</class>
+    <class>Entities.EventTypeWord</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <shared-cache-mode>ALL</shared-cache-mode>
+    <properties>
+      <property name="hibernate.cache.provider_class" value="net.sf.ehcache.hibernate.EhCacheProvider"/>
+      <!-- ONLY FOR TABLE CREATION -->
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.format_sql" value="true"/>
+      <property name="hibernate.enable_lazy_load_no_trans" value="true"/>
+      <property name="javax.persistence.schema-generation.drop-source" value="script"/>
+      <property name="javax.persistence.schema-generation.drop-script-source" value="META-INF/sql/Drop.sql"/>
+      <property name="javax.persistence.schema-generation.create-source" value="script"/>
+      <property name="javax.persistence.schema-generation.create-script-source" value="META-INF/sql/Create.sql"/>
+      <property name="javax.persistence.sql-load-script-source" value="META-INF/sql/Data.sql"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/makemyday?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="root"/>
+    </properties>
+  </persistence-unit>
+</persistence>
