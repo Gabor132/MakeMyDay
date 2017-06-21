@@ -5,6 +5,7 @@
  */
 package Components.Services;
 
+import Auxiliars.Pair;
 import Components.Repositories.EventDao;
 import Entities.Event;
 import Entities.EventType;
@@ -22,7 +23,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

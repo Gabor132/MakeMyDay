@@ -24,10 +24,10 @@
       <property name="javax.persistence.schema-generation.create-source" value="script"/>
       <property name="javax.persistence.schema-generation.create-script-source" value="META-INF/sql/Create.sql"/>
       <property name="javax.persistence.sql-load-script-source" value="META-INF/sql/Data.sql"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/makemyday?zeroDateTimeBehavior=convertToNull"/>
-      <property name="javax.persistence.jdbc.user" value="root"/>
-      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="root"/>
+      <property name="javax.persistence.jdbc.url" value="${jdbc.url}"/>
+      <property name="javax.persistence.jdbc.user" value="${jdbc.username}"/>
+      <property name="javax.persistence.jdbc.driver" value="${jdbc.driverClassName}"/>
+      <property name="javax.persistence.jdbc.password" value="${jdbc.password}"/>
     </properties>
   </persistence-unit>
 </persistence>

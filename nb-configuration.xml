@@ -34,4 +34,11 @@ Any value defined here will override the pom.xml file value but is only applicab
             </config-file-group>
         </config-file-groups>
     </spring-data>
+    <config-data xmlns="http://www.netbeans.org/ns/maven-config-data/1">
+        <configurations>
+            <configuration id="default" profiles="">
+                <property name="DATABASE_URL">jdbc:mysql://localhost:3306/makemyday?zeroDateTimeBehavior=convertToNull</property>
+            </configuration>
+        </configurations>
+    </config-data>
 </project-shared-configuration>
