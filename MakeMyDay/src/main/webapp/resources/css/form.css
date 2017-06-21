@@ -1,0 +1,133 @@
+/** FORM VISUALS **/
+form{
+    margin-left:auto;
+    margin-right:auto;
+}
+
+form > *{
+    margin-top:2px;
+    margin-bottom:2px;
+}
+
+legend{
+    color: rgb(255, 182, 39);
+    font-size: 110%;
+    padding-left: 5%;
+    padding-right: 5%;
+    background-color: rgb(95, 84, 73);
+    border-top:3px solid rgb(255, 149, 5);
+    border-left:3px solid rgb(255, 149, 5);
+    border-right:3px solid rgb(255, 149, 5);
+    border-bottom:3px solid rgb(255, 149, 5);
+}
+
+fieldset{
+    color: rgb(248, 255, 229);
+    background-color: rgb(255, 182, 39);
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-left: 5%;
+    margin-left: 30%;
+    margin-right: 30%;
+    border-top:3px solid rgb(255, 149, 5);
+    border-left:3px solid rgb(255, 149, 5);
+    border-right:3px solid rgb(255, 149, 5);
+    border-bottom:3px solid rgb(255, 149, 5);
+}
+
+input{
+    background-color: rgb(255, 182, 39);
+    border-style:solid;
+    border-width:0px;
+    border-bottom-width: 3px;
+    border-color: rgb(248, 255, 229);
+    color: rgb(95, 84, 73);
+    margin-bottom: 1vw;
+}
+
+input:disabled{
+    background-color: rgb(252, 215, 143);
+}
+
+select{
+    background-color: rgb(255, 182, 39);
+    border-style:solid;
+    border-width:0px;
+    border-bottom-width: 3px;
+    border-color: rgb(248, 255, 229);
+    color: rgb(95, 84, 73);
+    margin-bottom: 1vw;
+}
+
+.submitButton{
+    text-align: center;
+    font-size: 110%;
+    width: 30%;
+    color: rgb(255, 182, 39);
+    background-color: rgb(95, 84, 73);
+    border-style: solid;
+    border-color: rgb(255, 149, 5);
+    border-width: 3px;
+    animation-name:unButtonHover;
+    animation-duration:1s;
+    animation-fill-mode: forwards;
+}
+
+textarea{
+    background-color: rgb(255, 182, 39);
+    border-style:solid;
+    border-width:0px;
+    border-bottom-width: 3px;
+    border-color: rgb(248, 255, 229);
+    color: rgb(95, 84, 73);
+    width:400px;
+    height:200px;
+}
+
+.submitButton:hover{
+    color: rgb(95, 84, 73);
+    background-color: rgb(248, 255, 229);
+    animation-name:buttonHover;
+    animation-duration:1s;
+    animation-fill-mode: forwards;
+}
+
+.templateTree{
+    border-color: rgb(95, 84, 73);
+    border-style: solid;
+    border-width: 5px;
+}
+
+.templateRoot{
+    border-color: rgb(248, 255, 229);
+    border-style: solid;
+    border-width: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color:rgb(248, 255, 229); 
+}
+
+
+.templateElement{
+    border-style: solid;
+    border-width: 8px;
+    border-bottom-width: 1px;
+    border-top-width: 1px;
+    text-align: initial;
+    background-color:rgb(248, 255, 229); 
+}
+
+.siteTemplateButton{
+    display:inline-block;
+    color:rgb(255, 149, 5);
+    background-color:rgb(95, 84, 73);
+    margin: 1vw;
+}
+
+.siteTemplateButton:hover{
+    color:rgb(248, 255, 229);
+}
+
+.templateElement > input, .templateElement > select{
+    margin-left: 1%;
+}

@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!-- was: <?xml version="1.0" encoding="UTF-8"?> -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd 
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+    
+    <mvc:annotation-driven/>
+    <context:component-scan base-package="Components"/>
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+    
+    
+    <bean id="viewResolverResource"
+            class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+            p:prefix="/WEB-INF/html/"
+            p:suffix=".jsp"
+    />
+    
+    <bean name="viewResolverJson" class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
+    <bean name="jsonTemplate" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+    
+    <bean id="planDao" class="Components.Repositories.PlanDao"/>
+    <bean id="eventDao" class="Components.Repositories.EventDao"/>
+    <bean id="siteDao" class="Components.Repositories.SiteDao"/>
+    <bean id="userDao" class="Components.Repositories.UserDao"/>
+    <bean id="itemClassDao" class="Components.Repositories.ItemClassDao"/>
+    <bean id="itemTemplateDao" class="Components.Repositories.ItemTemplateDao"/>
+    <bean id="eventMapper" class="Components.Mappers.EventMapper"/>
+    <bean id="classMapper" class="Components.Mappers.ClassMapper"/>
+    <bean id="itemMapper" class="Components.Mappers.ItemMapper"/>
+    <bean id="siteMapper" class="Components.Mappers.SiteMapper"/>
+    <bean id="adminController" class="Components.Controllers.AdminController"/>
+
+</beans>
