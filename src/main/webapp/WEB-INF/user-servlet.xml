@@ -15,7 +15,6 @@
     
     <mvc:annotation-driven/>
     <context:component-scan base-package="Components"/>
-    <mvc:resources mapping="/resources/**" location="/resources/"/>
     
     
     <bean id="viewResolverResource"
