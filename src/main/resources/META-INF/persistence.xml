@@ -26,6 +26,7 @@
       <property name="javax.persistence.schema-generation.create-script-source" value="META-INF/sql/Create.sql"/>
       <property name="javax.persistence.sql-load-script-source" value="META-INF/sql/Data.sql"/>
       <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
 </persistence>
