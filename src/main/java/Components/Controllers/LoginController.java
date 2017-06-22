@@ -53,7 +53,7 @@ public class LoginController {
     @Autowired
     public MailService mailService;
     
-    @RequestMapping("/login")
+    @RequestMapping("MakeMyDay/login")
     public ModelAndView getLogin(@RequestHeader HttpHeaders headers){
         return new ModelAndView("login");
     }
