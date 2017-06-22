@@ -34,7 +34,9 @@ public class KeyWordDao extends EntityDao{
     public List<KeyWord> getAllKeyWords(){
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<KeyWord> query = entityManager.createNamedQuery("KeyWord.findAll", KeyWord.class);
-        return query.getResultList();
+        List<KeyWord> result = query.getResultList();
+        entityManager.close();
+        return result;
     }
 
     @Transactional

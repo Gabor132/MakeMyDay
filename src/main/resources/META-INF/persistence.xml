@@ -2,6 +2,7 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="MakeMyDayPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <non-jta-data-source>mmdDataSourcePost</non-jta-data-source>
     <class>Entities.Event</class>
     <class>Entities.Plan</class>
     <class>Entities.ItemClass</class>
@@ -24,10 +25,7 @@
       <property name="javax.persistence.schema-generation.create-source" value="script"/>
       <property name="javax.persistence.schema-generation.create-script-source" value="META-INF/sql/Create.sql"/>
       <property name="javax.persistence.sql-load-script-source" value="META-INF/sql/Data.sql"/>
-      <property name="javax.persistence.jdbc.url" value="${jdbc.url}"/>
-      <property name="javax.persistence.jdbc.user" value="${jdbc.username}"/>
-      <property name="javax.persistence.jdbc.driver" value="${jdbc.driverClassName}"/>
-      <property name="javax.persistence.jdbc.password" value="${jdbc.password}"/>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
     </properties>
   </persistence-unit>
 </persistence>

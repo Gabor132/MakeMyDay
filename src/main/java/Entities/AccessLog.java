@@ -28,7 +28,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "ACCESS_LOGS")
-@NamedQuery(name="AccessLog.findByUser", query = "SELECT a FROM AccessLog a where a.user = :user and a.expirationTime > sysdate()")
+@NamedQuery(name="AccessLog.findByUser", query = "SELECT a FROM AccessLog a where a.user = :user and a.expirationTime > current_timestamp")
 public class AccessLog implements Serializable, DBEntity{
 
     @Id
