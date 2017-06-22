@@ -2,4 +2,5 @@
 <Context path="/MakeMyDay">
   <Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" maxActive="20" maxIdle="10" maxWait="-1" name="mmdDataSource" password="root" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/makemyday?zeroDateTimeBehavior=convertToNull" username="root"/>
   <Resource auth="Container" driverClassName="org.postgresql.Driver" maxActive="20" maxIdle="10" maxWait="-1" name="mmdDataSourcePost" password="root" type="javax.sql.DataSource" url="jdbc:postgresql://localhost:5432/postgres" username="postgres"/>
+  <Resource auth="Container" driverClassName="org.postgresql.Driver" maxActive="20" maxIdle="10" maxWait="-1" name="mmdDataSourcePostHeroku" password="892a35406857afffa3c032b969a6427fe4e0232c594161bcf00237ba5650d1de" type="javax.sql.DataSource" url="jdbc:postgresql://ec2-107-20-226-93.compute-1.amazonaws.com:5432/ddpq2oggvnf0ch" username="ulxcwplhdrwzyi"/>
 </Context>
