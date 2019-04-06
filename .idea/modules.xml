@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MakeMyDay.iml" filepath="$PROJECT_DIR$/MakeMyDay.iml" />
+      <module fileurl="file://$PROJECT_DIR$/target/maven-archiver/maven-archiver.iml" filepath="$PROJECT_DIR$/target/maven-archiver/maven-archiver.iml" />
     </modules>
   </component>
 </project>
