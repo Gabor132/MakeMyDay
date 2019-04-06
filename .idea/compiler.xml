@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="MakeMyDay" />
+        <module name="maven-archiver" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="MakeMyDay" target="1.7" />
+      <module name="maven-archiver" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
