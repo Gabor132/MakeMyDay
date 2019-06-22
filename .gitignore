@@ -2,3 +2,7 @@
 /MakeMyDay/target
 /target
 .idea
+/build
+.settings
+/.classpath
+/.project
