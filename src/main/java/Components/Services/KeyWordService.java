@@ -5,6 +5,7 @@
  */
 package Components.Services;
 
+import Auxiliars.Pair;
 import Components.Repositories.EventTypeWordDao;
 import Components.Repositories.KeyWordDao;
 import Entities.Event;
@@ -13,7 +14,6 @@ import Entities.EventTypeWord;
 import Entities.KeyWord;
 import java.util.HashMap;
 import java.util.List;
-import javafx.util.Pair;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
