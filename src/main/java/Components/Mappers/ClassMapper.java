@@ -9,7 +9,6 @@ import Components.Repositories.ItemClassDao;
 import Components.Repositories.ItemTemplateDao;
 import DataToObjects.ItemClassDto;
 import Entities.ItemClass;
-import Entities.ItemTemplate;
 import Enums.ClassType;
 import Enums.ValueType;
 import java.util.HashSet;

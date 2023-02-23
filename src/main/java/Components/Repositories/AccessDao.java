@@ -7,8 +7,6 @@ package Components.Repositories;
 
 import Entities.AccessLog;
 import Entities.DBEntity;
-import Entities.EventType;
-import Entities.SiteTemplate;
 import Entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
