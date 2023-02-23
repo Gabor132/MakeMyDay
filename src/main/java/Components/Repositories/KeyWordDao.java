@@ -6,7 +6,6 @@
 package Components.Repositories;
 
 import Entities.DBEntity;
-import Entities.Event;
 import Entities.KeyWord;
 import java.util.List;
 import javax.persistence.EntityManager;
