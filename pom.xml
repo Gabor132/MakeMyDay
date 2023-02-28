@@ -12,7 +12,8 @@
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>6.0.0</spring.version>
+        <spring.version>5.3.20</spring.version>
+        <spring.security.version>6.0.2</spring.security.version>
         <junit.version>4.11</junit.version>
         <hibernate.version>5.0.0.Final</hibernate.version>
         <mysqlconnector.version>5.1.10</mysqlconnector.version>
@@ -108,12 +109,12 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
-            <version>${spring.version}</version>
+            <version>${spring.security.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>${spring.version}</version>
+            <version>${spring.security.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
