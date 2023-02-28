@@ -8,6 +8,7 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <!-- Commented out till a proper solution to logging can be found
     <context-param>
         <param-name>log4jConfigLocation</param-name>
         <param-value>/WEB-INF/classes/log4j.properties</param-value>
@@ -17,6 +18,7 @@
             org.springframework.web.util.Log4jConfigListener
         </listener-class>
     </listener>
+    -->
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
