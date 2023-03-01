@@ -191,7 +191,7 @@ lr_namespace.clearAjaxHeader = function(){
 
 lr_namespace.redirect = function(url, time){
     setTimeout(function(){
-        window.location = window.location.href.split("MakeMyDay")[0] + "MakeMyDay" + url;
+        window.location = window.location.origin + url;
     }, time);
 };
 
