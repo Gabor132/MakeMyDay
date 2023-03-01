@@ -24,52 +24,52 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Component
-public class UserDao extends EntityDao{
+public class UserDao extends EntityDao {
 
     @Autowired
     public EventTypeDao eventTypeDao;
-    
+
     @Transactional
     @Override
     public DBEntity getById(Long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try{
+        try {
             return entityManager.find(User.class, id);
-        }catch(NoResultException ex){
+        } catch (NoResultException ex) {
             return null;
         }
     }
-    
+
     @Transactional
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<User> query = entityManager.createNamedQuery("User.findAll", User.class);
         return query.getResultList();
     }
-    
+
     @Transactional
-    public User getUserByEmail(String email){
+    public User getUserByEmail(String email) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        TypedQuery<User> query = entityManager.createNamedQuery("User.findByEmail",User.class);
+        TypedQuery<User> query = entityManager.createNamedQuery("User.findByEmail", User.class);
         query.setParameter("email", email);
         User user;
-        try{
+        try {
             user = query.getSingleResult();
             return user;
-        }catch(NoResultException ex){
+        } catch (NoResultException ex) {
             return null;
         }
     }
-    
+
     @Transactional
     @Override
     public boolean save(DBEntity object) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         User user = (User) object;
-        if(entityManager.contains(object)){
+        if (entityManager.contains(object)) {
             entityManager.merge(object);
-        }else{
+        } else {
             TypedQuery<EventType> query = entityManager.createNamedQuery("EventType.findAll", EventType.class);
             List<EventType> list = query.getResultList();
             user.getPreferences().clear();
@@ -80,7 +80,7 @@ public class UserDao extends EntityDao{
         entityManager.close();
         return true;
     }
-    
+
     @Transactional
     @Override
     public boolean update(DBEntity newObject) {
@@ -94,10 +94,10 @@ public class UserDao extends EntityDao{
         original.setPlans(newOriginal.getPlans());
         original.getPreferences().clear();
         List<EventType> list = eventTypeDao.getAllEventTypes();
-        for(int i = 0; i < list.size(); i++){
-            if(!newOriginal.getPreferences().contains(list.get(i))){
+        for (int i = 0; i < list.size(); i++) {
+            if (!newOriginal.getPreferences().contains(list.get(i))) {
                 list.remove(i);
-            }else{
+            } else {
                 original.getPreferences().add(list.get(i));
             }
         }
@@ -106,24 +106,24 @@ public class UserDao extends EntityDao{
         entityManager.close();
         return true;
     }
-    
+
     @Transactional
     public boolean updatePreference(String email, List<String> preferences) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        TypedQuery<User> query = entityManager.createNamedQuery("User.findByEmail",User.class);
+        TypedQuery<User> query = entityManager.createNamedQuery("User.findByEmail", User.class);
         query.setParameter("email", email);
         User original;
-        try{
+        try {
             original = query.getSingleResult();
-        }catch(NoResultException ex){
+        } catch (NoResultException ex) {
             return false;
         }
         original.getPreferences().clear();
         TypedQuery<EventType> query2 = entityManager.createNamedQuery("EventType.findAll", EventType.class);
         List<EventType> list = query2.getResultList();
-        for(EventType event : list){
-            if(preferences.contains(event.getType())){
+        for (EventType event : list) {
+            if (preferences.contains(event.getType())) {
                 original.getPreferences().add(event);
             }
         }
@@ -132,23 +132,23 @@ public class UserDao extends EntityDao{
         entityManager.close();
         return true;
     }
-    
+
     @Transactional
-    public boolean confirmUser(Long id, boolean isAdmin){
+    public boolean confirmUser(Long id, boolean isAdmin) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         User user = entityManager.find(User.class, id);
-        user.setType(isAdmin?UserType.ADMIN:UserType.NORMAL);
+        user.setType(isAdmin ? UserType.ADMIN : UserType.NORMAL);
         entityManager.merge(user);
         entityManager.getTransaction().commit();
         return true;
     }
-    
+
     @Transactional
-    public List<User> getUnconfirmedUsers(){
+    public List<User> getUnconfirmedUsers() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<User> query = entityManager.createNamedQuery("User.findUnconfirmed", User.class);
         return query.getResultList();
     }
-    
+
 }

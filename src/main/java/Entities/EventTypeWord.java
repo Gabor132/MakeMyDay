@@ -24,22 +24,20 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "EVENT_TYPE_WORDS")
-@NamedQueries({
-    @NamedQuery(name = "EventTypeWord.findAll", query = "SELECT etk FROM EventTypeWord etk"),
-    @NamedQuery(name = "EventTypeWord.findByPrimaryKey", query = "SELECT etk FROM EventTypeWord etk WHERE etk.type = :type AND etk.word = :word")
-})
+@NamedQueries({ @NamedQuery(name = "EventTypeWord.findAll", query = "SELECT etk FROM EventTypeWord etk"),
+        @NamedQuery(name = "EventTypeWord.findByPrimaryKey", query = "SELECT etk FROM EventTypeWord etk WHERE etk.type = :type AND etk.word = :word") })
 public class EventTypeWord implements DBEntity, Serializable {
-    
+
     @Id
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "EVENT_TYPE_ID")
     private EventType type;
-    
+
     @Id
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "KEY_WORD_ID")
     private KeyWord word;
-    
+
     @Column(name = "PERCENTAGE")
     private double percentage;
 
@@ -72,7 +70,8 @@ public class EventTypeWord implements DBEntity, Serializable {
         int hash = 5;
         hash = 17 * hash + Objects.hashCode(this.type);
         hash = 17 * hash + Objects.hashCode(this.word);
-        hash = 17 * hash + (int) (Double.doubleToLongBits(this.percentage) ^ (Double.doubleToLongBits(this.percentage) >>> 32));
+        hash = 17 * hash
+                + (int) (Double.doubleToLongBits(this.percentage) ^ (Double.doubleToLongBits(this.percentage) >>> 32));
         return hash;
     }
 
@@ -99,7 +98,5 @@ public class EventTypeWord implements DBEntity, Serializable {
         }
         return true;
     }
-    
-    
-    
+
 }

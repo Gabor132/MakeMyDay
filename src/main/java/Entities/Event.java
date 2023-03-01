@@ -30,52 +30,50 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "EVENTS")
-@NamedQueries({
-    @NamedQuery(name="Event.findAll", query = "SELECT e FROM Event e"),
-    @NamedQuery(name="Event.findById", query = "SELECT e FROM Event e WHERE e.id = :id"),
-    @NamedQuery(name="Event.findByName", query = "SELECT e FROM Event e WHERE e.name = :name"),
-    @NamedQuery(name="Event.findByType", query = "SELECT e FROM Event e WHERE e.type = :type"),
-    @NamedQuery(name="Event.findDetermined", query = "SELECT e FROM Event e WHERE e.type.id != (SELECT et.id FROM EventType et WHERE et.type = 'ALTELE')"),
-    @NamedQuery(name="Event.findByFilter", query = "SELECT e FROM Event e WHERE"
-            + " e.type = :type AND e.date BETWEEN :start AND :finish"),
-    @NamedQuery(name="Event.findByFilterAny", query = "SELECT e FROM Event e WHERE"
-            + " e.date BETWEEN :start AND :finish")
-})
-public class Event implements Serializable, DBEntity{
+@NamedQueries({ @NamedQuery(name = "Event.findAll", query = "SELECT e FROM Event e"),
+        @NamedQuery(name = "Event.findById", query = "SELECT e FROM Event e WHERE e.id = :id"),
+        @NamedQuery(name = "Event.findByName", query = "SELECT e FROM Event e WHERE e.name = :name"),
+        @NamedQuery(name = "Event.findByType", query = "SELECT e FROM Event e WHERE e.type = :type"),
+        @NamedQuery(name = "Event.findDetermined", query = "SELECT e FROM Event e WHERE e.type.id != (SELECT et.id FROM EventType et WHERE et.type = 'ALTELE')"),
+        @NamedQuery(name = "Event.findByFilter", query = "SELECT e FROM Event e WHERE"
+                + " e.type = :type AND e.date BETWEEN :start AND :finish"),
+        @NamedQuery(name = "Event.findByFilterAny", query = "SELECT e FROM Event e WHERE"
+                + " e.date BETWEEN :start AND :finish") })
+public class Event implements Serializable, DBEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name = "ID")
     private Long id;
-    
+
     @Column(name = "NAME")
     private String name;
-    
+
     @ManyToOne(cascade = CascadeType.DETACH, targetEntity = EventType.class)
     @JoinColumn(name = "TYPE_ID")
     private EventType type;
-    
+
     @Column(name = "IMAGE_URL")
     private String imageUrl;
-    
+
     @Column(name = "DATE_EVENT")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-    
+
     @Column(name = "ADDRESS")
     private String address;
-    
+
     @Column(name = "PRICE")
     private String price;
-    
+
     @Column(name = "DESCRIPTION")
     private String description;
-    
+
     @Column(name = "LINK")
     private String link;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="SITE_ID")
+    @JoinColumn(name = "SITE_ID")
     private SiteTemplate hostSite;
 
     public String getName() {
@@ -93,12 +91,12 @@ public class Event implements Serializable, DBEntity{
     public void setType(EventType type) {
         this.type = type;
     }
-    
-    public String getImageUrl(){
+
+    public String getImageUrl() {
         return this.imageUrl;
     }
-    
-    public void setImageUrl(String imageUrl){
+
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
@@ -109,12 +107,12 @@ public class Event implements Serializable, DBEntity{
     public void setDate(Date date) {
         this.date = date;
     }
-    
-    public String getAddress(){
+
+    public String getAddress() {
         return this.address;
     }
-    
-    public void setAddress(String address){
+
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -180,8 +178,6 @@ public class Event implements Serializable, DBEntity{
         return Objects.equals(this.date, other.date);
     }
 
-    
-
     public Long getId() {
         return id;
     }
@@ -189,14 +185,14 @@ public class Event implements Serializable, DBEntity{
     public void setId(Long id) {
         this.id = id;
     }
-    
-    public boolean isUsable(){
+
+    public boolean isUsable() {
         return !this.name.isEmpty() && !this.address.isEmpty() && !this.imageUrl.isEmpty();
     }
-    
-    public String getContent(){
+
+    public String getContent() {
         String eventContent = this.name + " " + this.address + " " + this.description;
         return eventContent.toUpperCase();
     }
-    
+
 }

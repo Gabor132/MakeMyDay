@@ -25,45 +25,45 @@ import org.springframework.stereotype.Service;
 @Service
 @Component
 public class UserMapper {
-    
+
     @Autowired
     public UserDao userDao;
-    
+
     @Autowired
     public PlanDao planDao;
-    
-    public UserDto toDto(User user){
+
+    public UserDto toDto(User user) {
         UserDto dto = new UserDto();
         dto.id = user.getId();
         dto.email = user.getEmail();
         List<Long> dtos = new LinkedList<>();
-        for(Plan plan : user.getPlans()){
+        for (Plan plan : user.getPlans()) {
             dtos.add(plan.getId());
         }
         dto.plans = dtos;
         dto.type = user.getType().name();
         return dto;
     }
-    
-    public User toDomain(UserDto dto){
+
+    public User toDomain(UserDto dto) {
         User user;
-        if(dto.id == null){
+        if (dto.id == null) {
             user = new User();
-        }else{
+        } else {
             user = (User) userDao.getById(dto.id);
         }
         user.setEmail(dto.email);
         user.setPassword(dto.password.getBytes());
         List<Plan> plans = new LinkedList<>();
-        if(dto.plans != null){
-            for(long planId : dto.plans){
+        if (dto.plans != null) {
+            for (long planId : dto.plans) {
                 plans.add((Plan) planDao.getById(planId));
             }
         }
         user.setPlans(plans);
-        if(dto.type == null){
+        if (dto.type == null) {
             user.setType(UserType.NORMAL);
-        }else{
+        } else {
             user.setType(UserType.valueOf(dto.type));
         }
         return user;

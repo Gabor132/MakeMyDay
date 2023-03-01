@@ -35,47 +35,35 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "USERS")
-@NamedQueries({
-    @NamedQuery(name="User.findAll", query = "SELECT u FROM User u WHERE u.type != 'UNCONFIRMED'"),
-    @NamedQuery(name="User.findById", query = "SELECT u FROM User u WHERE u.id = :id AND u.type != 'UNCONFIRMED'"),
-    @NamedQuery(name="User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email AND u.type != 'UNCONFIRMED'"),
-    @NamedQuery(name="User.findUnconfirmed", query = "SELECT u FROM User u WHERE u.type = 'UNCONFIRMED'")
-})
-public class User implements Serializable, DBEntity{
+@NamedQueries({ @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u WHERE u.type != 'UNCONFIRMED'"),
+        @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id AND u.type != 'UNCONFIRMED'"),
+        @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email AND u.type != 'UNCONFIRMED'"),
+        @NamedQuery(name = "User.findUnconfirmed", query = "SELECT u FROM User u WHERE u.type = 'UNCONFIRMED'") })
+public class User implements Serializable, DBEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name = "ID")
     private Long id;
-    
+
     @Column(name = "EMAIL", unique = true)
     private String email;
-    
+
     @Column(name = "PASSWORD")
     private byte[] password;
-    
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Plan> plans;
-    
+
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-        name = "PREFERENCES",
-        joinColumns = @JoinColumn(
-                name = "USER_ID",
-                referencedColumnName = "ID"
-        ),
-        inverseJoinColumns = @JoinColumn(
-                name = "EVENT_TYPE",
-                referencedColumnName = "ID"
-        )
-    )
+    @JoinTable(name = "PREFERENCES", joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "EVENT_TYPE", referencedColumnName = "ID"))
     private Set<EventType> preferences = new HashSet<>();
-    
+
     @Enumerated(EnumType.STRING)
-    @Column(name="TYPE")
+    @Column(name = "TYPE")
     @NotNull
     private UserType type;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     private List<AccessLog> accessLogs;
 
@@ -102,12 +90,12 @@ public class User implements Serializable, DBEntity{
     public void setPlans(List<Plan> plans) {
         this.plans = plans;
     }
-    
-    public UserType getType(){
+
+    public UserType getType() {
         return type;
     }
-    
-    public void setType(UserType type){
+
+    public void setType(UserType type) {
         this.type = type;
     }
 
@@ -126,7 +114,7 @@ public class User implements Serializable, DBEntity{
     public void setAccessLogs(List<AccessLog> accessLogs) {
         this.accessLogs = accessLogs;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -157,5 +145,5 @@ public class User implements Serializable, DBEntity{
     public void setId(Long id) {
         this.id = id;
     }
-    
+
 }

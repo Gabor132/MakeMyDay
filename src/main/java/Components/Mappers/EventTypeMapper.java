@@ -19,18 +19,18 @@ import org.springframework.stereotype.Service;
 @Service
 @Component
 public class EventTypeMapper {
-    
+
     @Autowired
     public EventTypeDao eventTypeDao;
-    
-    public EventTypeDto toDto(EventType eventType){
+
+    public EventTypeDto toDto(EventType eventType) {
         EventTypeDto dto = new EventTypeDto();
         dto.type = eventType.getType();
         return dto;
     }
-    
-    public EventType toDomain(EventTypeDto dto){
+
+    public EventType toDomain(EventTypeDto dto) {
         return eventTypeDao.getEventByType(dto.type);
     }
-    
+
 }

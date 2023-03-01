@@ -25,26 +25,25 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @RestController
 public class IndexController {
-    
+
     @Autowired
     public EventTypeService eventTypeService;
-    
+
     @Autowired
     public EventTypeMapper eventTypeMapper;
-    
-    @RequestMapping(value="/*")
-    public ModelAndView getIndex(){
+
+    @RequestMapping(value = "/*")
+    public ModelAndView getIndex() {
         return new ModelAndView("index");
     }
-    
+
     @RequestMapping(value = "/references", method = RequestMethod.GET)
-    public ResponseDto getAllEventTypes(){
+    public ResponseDto getAllEventTypes() {
         List<DataDto> list = new LinkedList<>();
-        for(EventType type : eventTypeService.getAllEventTypes()){
+        for (EventType type : eventTypeService.getAllEventTypes()) {
             list.add(eventTypeMapper.toDto(type));
         }
         return new ResponseDto(Response.REFERENCES_SUCCESS, list);
     }
-    
+
 }
- 

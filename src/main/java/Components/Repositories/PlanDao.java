@@ -27,25 +27,25 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Component
-public class PlanDao extends EntityDao{
-    
+public class PlanDao extends EntityDao {
+
     @Transactional
     @Override
     public DBEntity getById(Long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         return entityManager.find(Plan.class, id);
     }
-    
+
     @Transactional
-    public List<Plan> getPlanByUser(User user){
+    public List<Plan> getPlanByUser(User user) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<Plan> query = entityManager.createNamedQuery("Plan.findByUser", Plan.class);
         query.setParameter("user", user);
         return query.getResultList();
     }
-    
+
     @Transactional
-    public List<Plan> getPlanByDate(Date date){
+    public List<Plan> getPlanByDate(Date date) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<Plan> query = entityManager.createNamedQuery("Plan.findByDate", Plan.class);
         query.setParameter("day", date);
@@ -57,11 +57,11 @@ public class PlanDao extends EntityDao{
     public boolean save(DBEntity object) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        if(entityManager.contains(object)){
+        if (entityManager.contains(object)) {
             entityManager.merge(object);
-        }else{
+        } else {
             Plan plan = (Plan) object;
-            Event event = entityManager.find(Event.class,((Event)(plan.getEvents().toArray())[0]).getId());
+            Event event = entityManager.find(Event.class, ((Event) (plan.getEvents().toArray())[0]).getId());
             plan.setEvents(new HashSet<>(Arrays.asList(event)));
             entityManager.persist(plan);
         }
@@ -69,7 +69,7 @@ public class PlanDao extends EntityDao{
         entityManager.close();
         return true;
     }
-    
+
     @Transactional
     @Override
     public boolean update(DBEntity newObject) {
@@ -79,7 +79,7 @@ public class PlanDao extends EntityDao{
         Plan original = entityManager.find(Plan.class, newOriginal.getId());
         original.setId(newOriginal.getId());
         original.getEvents().clear();
-        for(Event event : newOriginal.getEvents()){
+        for (Event event : newOriginal.getEvents()) {
             Event event2 = entityManager.find(Event.class, event.getId());
             original.getEvents().add(event2);
         }
@@ -88,37 +88,37 @@ public class PlanDao extends EntityDao{
         entityManager.close();
         return true;
     }
-    
+
     @Transactional
     public boolean deleteEventFromPlans(String email, Event event) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        TypedQuery<User> query = entityManager.createNamedQuery("User.findByEmail",User.class);
+        TypedQuery<User> query = entityManager.createNamedQuery("User.findByEmail", User.class);
         query.setParameter("email", email);
         User original;
-        try{
+        try {
             original = query.getSingleResult();
-        }catch(NoResultException ex){
+        } catch (NoResultException ex) {
             return false;
         }
         List<Plan> plans = original.getPlans();
         List<Plan> toBeDeleted = new LinkedList<>();
-        for(int index = 0; index < plans.size(); index++){
-            if(plans.get(index).getEvents().contains(event)){
+        for (int index = 0; index < plans.size(); index++) {
+            if (plans.get(index).getEvents().contains(event)) {
                 plans.get(index).getEvents().remove(event);
-                if(plans.get(index).getEvents().isEmpty()){
+                if (plans.get(index).getEvents().isEmpty()) {
                     toBeDeleted.add(original.getPlans().remove(index));
                     break;
                 }
             }
         }
         entityManager.merge(original);
-        for(Plan plan : toBeDeleted){
+        for (Plan plan : toBeDeleted) {
             entityManager.remove(plan);
         }
         entityManager.getTransaction().commit();
         entityManager.close();
         return true;
     }
-    
+
 }

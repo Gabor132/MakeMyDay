@@ -20,16 +20,16 @@ import javax.persistence.Table;
  * @author Dragos
  */
 @Entity
-@Table(name="KEY_WORDS")
-@NamedQuery(name="KeyWord.findAll", query = "SELECT k FROM KeyWord k")
+@Table(name = "KEY_WORDS")
+@NamedQuery(name = "KeyWord.findAll", query = "SELECT k FROM KeyWord k")
 public class KeyWord implements DBEntity, Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name = "ID")
     private Long id;
-    
-    @Column(name="WORD")
+
+    @Column(name = "WORD")
     private String word;
 
     public Long getId() {
@@ -76,5 +76,5 @@ public class KeyWord implements DBEntity, Serializable {
         }
         return true;
     }
-    
+
 }

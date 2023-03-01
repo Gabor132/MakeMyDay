@@ -17,8 +17,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Component
-public class ItemClassDao extends EntityDao{
-    
+public class ItemClassDao extends EntityDao {
+
     @Override
     public DBEntity getById(Long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -40,5 +40,5 @@ public class ItemClassDao extends EntityDao{
         entityManager.close();
         return true;
     }
-    
+
 }

@@ -11,6 +11,6 @@ import java.io.Serializable;
  *
  * @author Dragos
  */
-public class EventTypeDto extends DataDto implements Serializable{
+public class EventTypeDto extends DataDto implements Serializable {
     public String type;
 }

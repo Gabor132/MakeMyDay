@@ -27,35 +27,32 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 /**
  *
  * @author Dragos
  */
 @Entity
 @Table(name = "PLANS")
-@NamedQueries({
-    @NamedQuery(name = "Plan.findById", query = "SELECT p FROM Plan p where p.id = :id"),
-    @NamedQuery(name = "Plan.findByUser", query = "SELECT p FROM Plan p where p.user = :user"),
-    @NamedQuery(name = "Plan.findByDate", query = "SELECT p FROM Plan p where p.day = :day")
-})
+@NamedQueries({ @NamedQuery(name = "Plan.findById", query = "SELECT p FROM Plan p where p.id = :id"),
+        @NamedQuery(name = "Plan.findByUser", query = "SELECT p FROM Plan p where p.user = :user"),
+        @NamedQuery(name = "Plan.findByDate", query = "SELECT p FROM Plan p where p.day = :day") })
 public class Plan implements Serializable, DBEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name = "ID")
     private Long id;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
-    
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "PLAN_EVENTS", 
-            joinColumns = @JoinColumn(name = "PLAN_ID", nullable = false),
-        inverseJoinColumns = @JoinColumn(name = "EVENT_ID", nullable = false))
+    @JoinTable(name = "PLAN_EVENTS", joinColumns = @JoinColumn(name = "PLAN_ID", nullable = false), inverseJoinColumns = @JoinColumn(name = "EVENT_ID", nullable = false))
     private Set<Event> events = new HashSet<>();
-    
-    @Column(name="PLAN_DATE")
+
+    @Column(name = "PLAN_DATE")
     @Temporal(TemporalType.DATE)
     private Date day;
 
@@ -116,8 +113,6 @@ public class Plan implements Serializable, DBEntity {
         return true;
     }
 
-    
-
     public Long getId() {
         return id;
     }
@@ -125,6 +120,5 @@ public class Plan implements Serializable, DBEntity {
     public void setId(Long id) {
         this.id = id;
     }
-    
-    
+
 }

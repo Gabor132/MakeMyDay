@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Component
-public class ItemTemplateDao extends EntityDao{
+public class ItemTemplateDao extends EntityDao {
 
     @Override
     public DBEntity getById(Long id) {
@@ -37,5 +37,5 @@ public class ItemTemplateDao extends EntityDao{
         entityManager.close();
         return true;
     }
-    
+
 }

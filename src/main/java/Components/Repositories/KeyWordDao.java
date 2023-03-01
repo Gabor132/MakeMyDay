@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Component
-public class KeyWordDao extends EntityDao{
+public class KeyWordDao extends EntityDao {
 
     @Transactional
     @Override
@@ -28,9 +28,9 @@ public class KeyWordDao extends EntityDao{
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         return entityManager.find(KeyWord.class, id);
     }
-    
+
     @Transactional
-    public List<KeyWord> getAllKeyWords(){
+    public List<KeyWord> getAllKeyWords() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<KeyWord> query = entityManager.createNamedQuery("KeyWord.findAll", KeyWord.class);
         return query.getResultList();
@@ -39,7 +39,8 @@ public class KeyWordDao extends EntityDao{
     @Transactional
     @Override
     public boolean update(DBEntity newObject) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
+                                                                       // Tools | Templates.
     }
-    
+
 }

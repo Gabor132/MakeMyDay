@@ -23,30 +23,30 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Component
 @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-public class SiteDao extends EntityDao{
-    
+public class SiteDao extends EntityDao {
+
     @Transactional
     @Override
     public DBEntity getById(Long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         return entityManager.find(SiteTemplate.class, id);
     }
-    
+
     @Transactional
-    public List<SiteTemplate> getAllSites(){
+    public List<SiteTemplate> getAllSites() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<SiteTemplate> query = entityManager.createNamedQuery("SiteTemplate.findAll", SiteTemplate.class);
         return query.getResultList();
     }
-    
+
     @Transactional
-    public List<SiteTemplate> getByName(String name){
+    public List<SiteTemplate> getByName(String name) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<SiteTemplate> query = entityManager.createNamedQuery("SiteTemplate.findByName", SiteTemplate.class);
         query.setParameter("name", name);
         return query.getResultList();
     }
-    
+
     @Transactional
     @Override
     public boolean save(DBEntity object) {
@@ -76,5 +76,5 @@ public class SiteDao extends EntityDao{
         entityManager.close();
         return true;
     }
-    
+
 }

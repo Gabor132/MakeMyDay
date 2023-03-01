@@ -37,38 +37,39 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @RestController
 public class LoginController {
-    
+
     @Autowired
     public AccessLogService accessLogService;
-    
+
     @Autowired
     public UserService userService;
-    
+
     @Autowired
     public UserMapper userMapper;
-    
+
     @Autowired
     public SecurityService securityService;
-    
+
     @Autowired
     public MailService mailService;
-    
+
     @RequestMapping("/login")
-    public ModelAndView getLogin(@RequestHeader HttpHeaders headers){
+    public ModelAndView getLogin(@RequestHeader HttpHeaders headers) {
         return new ModelAndView("login");
     }
-    
-    @RequestMapping(value="login/isAdmin", method = RequestMethod.GET)
-    public ResponseDto isAdmin(@RequestHeader HttpHeaders headers){
-        return new ResponseDto(userService.isAdmin(headers.get("Auth-Email")!= null?headers.get("Auth-Email").get(0):""));
+
+    @RequestMapping(value = "login/isAdmin", method = RequestMethod.GET)
+    public ResponseDto isAdmin(@RequestHeader HttpHeaders headers) {
+        return new ResponseDto(
+                userService.isAdmin(headers.get("Auth-Email") != null ? headers.get("Auth-Email").get(0) : ""));
     }
-    
-    @RequestMapping(value="login/login", method = RequestMethod.POST)
-    public ResponseDto loginUser(@RequestBody UserDto userDto){
+
+    @RequestMapping(value = "login/login", method = RequestMethod.POST)
+    public ResponseDto loginUser(@RequestBody UserDto userDto) {
         User user = userMapper.toDomain(userDto);
         user.setPassword(securityService.hashPassword(userDto.password));
         Response response = userService.loginUser(user);
-        if(response == Response.LOGIN_SUCCESFULL){
+        if (response == Response.LOGIN_SUCCESFULL) {
             DataDto data = new DataDto();
             data.token = accessLogService.registerToken(userDto);
             data.email = userDto.email;
@@ -76,12 +77,12 @@ public class LoginController {
         }
         return new ResponseDto(response);
     }
-    
-    @RequestMapping(value="login/register", method = RequestMethod.POST)
-    public ResponseDto registerUser(@RequestBody UserDto userDto){
+
+    @RequestMapping(value = "login/register", method = RequestMethod.POST)
+    public ResponseDto registerUser(@RequestBody UserDto userDto) {
         User user = userMapper.toDomain(userDto);
-        //TODO - DELET THIS!
-        if(user.getEmail().equals("gabordragos@gmail.com")){
+        // TODO - DELET THIS!
+        if (user.getEmail().equals("gabordragos@gmail.com")) {
             user.setType(UserType.ADMIN);
         }
         user.setPassword((securityService.hashPassword(userDto.password)));
@@ -89,21 +90,21 @@ public class LoginController {
         mailService.sendConfirmation(user);
         return response;
     }
-    
-    @RequestMapping(value="login/logout", method = RequestMethod.PUT)
-    public ResponseDto logoutUser(@RequestBody DataDto accessDto){
+
+    @RequestMapping(value = "login/logout", method = RequestMethod.PUT)
+    public ResponseDto logoutUser(@RequestBody DataDto accessDto) {
         User user = userService.getByEmail(accessDto.email);
-        if(user == null){
+        if (user == null) {
             return new ResponseDto(Response.LOGOUT_UNSUCCESFULL);
         }
         return new ResponseDto(userService.logoutUser(user, accessDto.token));
     }
-    
-    @RequestMapping(value="login/confirmation", method = RequestMethod.GET)
-    public ModelAndView confirmUser(@RequestParam("link") String link){
-        try{
+
+    @RequestMapping(value = "login/confirmation", method = RequestMethod.GET)
+    public ModelAndView confirmUser(@RequestParam("link") String link) {
+        try {
             link = URLDecoder.decode(link, "UTF-8");
-        }catch(UnsupportedEncodingException ex){
+        } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(MailService.class.getName()).log(Level.SEVERE, null, ex);
         }
         ResponseDto response = new ResponseDto(userService.confirmUser(link));
@@ -111,5 +112,5 @@ public class LoginController {
         model.addObject("message", response.message);
         return model;
     }
-    
+
 }

@@ -22,23 +22,23 @@ import org.springframework.stereotype.Service;
 @Service
 @Component
 public class EventMapper {
-    
+
     @Autowired
     public EventDao eventDao;
-    
+
     @Autowired
     public SiteDao siteDao;
-    
+
     @Autowired
     public EventTypeService eventTypeService;
-    
-    public EventDto toDto(Event event){
+
+    public EventDto toDto(Event event) {
         EventDto dto = new EventDto();
         dto.id = event.getId();
         dto.name = event.getName();
-        if(event.getType() == null){
+        if (event.getType() == null) {
             dto.type = "OTHER";
-        }else{
+        } else {
             dto.type = event.getType().getType();
         }
         dto.address = event.getAddress();
@@ -50,15 +50,15 @@ public class EventMapper {
         dto.hostSite = event.getHostSite().getName();
         return dto;
     }
-    
-    public Event toDomain(EventDto dto){
+
+    public Event toDomain(EventDto dto) {
         Event event;
-        if(dto.id == null){
+        if (dto.id == null) {
             event = new Event();
-        }else{
+        } else {
             event = (Event) eventDao.getById(dto.id);
         }
-        
+
         event.setName(dto.name);
         event.setType(eventTypeService.getEventType(dto.type));
         event.setAddress(dto.address);
@@ -68,8 +68,8 @@ public class EventMapper {
         event.setDate(dto.date);
         event.setImageUrl(dto.imageUrl);
         event.setHostSite((SiteTemplate) siteDao.getByName(dto.hostSite));
-        
+
         return event;
     }
-    
+
 }

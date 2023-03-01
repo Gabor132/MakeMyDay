@@ -12,7 +12,7 @@ import java.util.Set;
  *
  * @author Dragos
  */
-public class ItemClassDto extends DataDto implements Serializable{
+public class ItemClassDto extends DataDto implements Serializable {
     public Long id;
     public String className;
     public String classType;

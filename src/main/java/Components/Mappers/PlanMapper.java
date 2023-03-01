@@ -21,42 +21,42 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Dragos
  */
 public class PlanMapper {
-    
+
     @Autowired
     public PlanDao planDao;
-    
+
     @Autowired
     public EventMapper eventMapper;
-    
-    public PlanDto toDto(Plan plan){
+
+    public PlanDto toDto(Plan plan) {
         PlanDto dto = new PlanDto();
         dto.id = plan.getId();
         List<EventDto> listEvent = new LinkedList<>();
-        for(Event event : plan.getEvents()){
+        for (Event event : plan.getEvents()) {
             listEvent.add(eventMapper.toDto(event));
         }
         dto.events = listEvent;
         dto.day = plan.getDay();
         return dto;
     }
-    
-    public Plan toDomain(PlanDto dto){
+
+    public Plan toDomain(PlanDto dto) {
         Plan plan;
-        if(dto.id == null){
+        if (dto.id == null) {
             plan = new Plan();
-        }else{
+        } else {
             plan = (Plan) planDao.getById(dto.id);
         }
-        
+
         Set<Event> listEvents = new HashSet<>();
-        for(EventDto eventDto : dto.events){
+        for (EventDto eventDto : dto.events) {
             listEvents.add(eventMapper.toDomain(eventDto));
         }
-        
+
         plan.setEvents(listEvents);
         plan.setDay(dto.day);
-        
+
         return plan;
     }
-    
+
 }

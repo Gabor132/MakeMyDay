@@ -24,47 +24,46 @@ import org.springframework.stereotype.Service;
 @Service
 @Component
 public class ItemMapper {
-    
+
     @Autowired
     public ItemTemplateDao itemTemplateDao;
-    
+
     @Autowired
     public SiteDao siteDao;
-    
+
     @Autowired
     public ClassMapper classMapper;
-    
-    
-    public ItemTemplateDto toDto(ItemTemplate item){
+
+    public ItemTemplateDto toDto(ItemTemplate item) {
         ItemTemplateDto dto = new ItemTemplateDto();
         dto.id = item.getId();
         dto.hostSite = item.getHostSite().getId();
         dto.name = item.getName();
         List<ItemClassDto> dtos = new ArrayList<>();
-        for(ItemClass itemClass : item.getClasses()){
+        for (ItemClass itemClass : item.getClasses()) {
             dtos.add(classMapper.toDto(itemClass));
         }
         dto.classes = dtos;
         return dto;
     }
-    
-    public ItemTemplate toDomain(ItemTemplateDto dto){
+
+    public ItemTemplate toDomain(ItemTemplateDto dto) {
         ItemTemplate item;
-        if(dto.id == null){
+        if (dto.id == null) {
             item = new ItemTemplate();
-        }else{
+        } else {
             item = (ItemTemplate) itemTemplateDao.getById(dto.id);
         }
         item.setName(dto.name);
         List<ItemClass> itemClasses = new ArrayList<>();
-        for(ItemClassDto classDto : dto.classes){
+        for (ItemClassDto classDto : dto.classes) {
             itemClasses.add(classMapper.toDomain(classDto));
         }
-        for(ItemClass child : itemClasses){
+        for (ItemClass child : itemClasses) {
             child.setHostItem(item);
         }
         item.setClasses(itemClasses);
         return item;
     }
-    
+
 }

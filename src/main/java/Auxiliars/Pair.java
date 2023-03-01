@@ -7,11 +7,10 @@ public class Pair<T, V> implements Map.Entry {
     private T key;
     private V value;
 
-    public Pair(T key, V value){
+    public Pair(T key, V value) {
         this.key = key;
         this.value = value;
     }
-
 
     @Override
     public T getKey() {

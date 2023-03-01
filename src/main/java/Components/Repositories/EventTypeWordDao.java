@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Component
-public class EventTypeWordDao extends EntityDao{
+public class EventTypeWordDao extends EntityDao {
 
     @Deprecated
     @Override
@@ -30,29 +30,31 @@ public class EventTypeWordDao extends EntityDao{
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         return entityManager.find(KeyWord.class, id);
     }
-    
-    public EventTypeWord getByPrimaryKey(EventType type, KeyWord word){
+
+    public EventTypeWord getByPrimaryKey(EventType type, KeyWord word) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        TypedQuery<EventTypeWord> query = entityManager.createNamedQuery("EventTypeWord.findByPrimaryKey", EventTypeWord.class);
+        TypedQuery<EventTypeWord> query = entityManager.createNamedQuery("EventTypeWord.findByPrimaryKey",
+                EventTypeWord.class);
         query.setParameter("type", type);
         query.setParameter("word", word);
         return query.getSingleResult();
     }
-    
+
     @Transactional
-    public List<EventTypeWord> getAllEventTypeWord(){
+    public List<EventTypeWord> getAllEventTypeWord() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<EventTypeWord> query = entityManager.createNamedQuery("EventTypeWord.findAll", EventTypeWord.class);
         return query.getResultList();
     }
-    
+
     @Transactional
     @Override
     public boolean update(DBEntity newObject) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         EventTypeWord newOriginal = (EventTypeWord) newObject;
-        TypedQuery<EventTypeWord> query = entityManager.createNamedQuery("EventTypeWord.findByPrimaryKey", EventTypeWord.class);
+        TypedQuery<EventTypeWord> query = entityManager.createNamedQuery("EventTypeWord.findByPrimaryKey",
+                EventTypeWord.class);
         query.setParameter("type", newOriginal.getType());
         query.setParameter("word", newOriginal.getWord());
         EventTypeWord original = query.getSingleResult();
@@ -61,5 +63,5 @@ public class EventTypeWordDao extends EntityDao{
         entityManager.getTransaction().commit();
         return true;
     }
-    
+
 }

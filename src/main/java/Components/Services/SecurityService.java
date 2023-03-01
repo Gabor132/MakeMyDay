@@ -20,8 +20,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SecurityService {
-    
-    public byte[] hashPassword(String password){
+
+    public byte[] hashPassword(String password) {
         byte[] hashedPassword = new byte[32];
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
@@ -33,14 +33,13 @@ public class SecurityService {
         }
         return hashedPassword;
     }
-    
-    public String generateToken(User user){
+
+    public String generateToken(User user) {
         SecureRandom random = new SecureRandom();
         byte bytes[] = new byte[64];
         random.nextBytes(bytes);
         String token = bytes.toString();
         return token;
     }
-    
-    
+
 }

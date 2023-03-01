@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Dragos
  */
-public class ItemTemplateDto extends DataDto implements Serializable{
+public class ItemTemplateDto extends DataDto implements Serializable {
     public Long id;
     public String name;
     public Long hostSite;

@@ -26,28 +26,28 @@ import org.springframework.stereotype.Service;
 @Service
 @Component
 public class SiteMapper {
-    
+
     @Autowired
     public SiteDao siteDao;
-    
+
     @Autowired
     public ItemTemplateDao itemTemplateDao;
-    
+
     @Autowired
     public ItemMapper itemMapper;
-    
+
     @Autowired
     public EventMapper eventMapper;
-    
+
     @Autowired
     public EventTypeService eventTypeService;
-    
-    public SiteDto toDto(SiteTemplate site){
-        if(site == null)
+
+    public SiteDto toDto(SiteTemplate site) {
+        if (site == null)
             return null;
         SiteDto dto = new SiteDto();
         dto.id = site.getId();
-        if(site.getItemTemplate() != null){
+        if (site.getItemTemplate() != null) {
             dto.itemTemplate = itemMapper.toDto(site.getItemTemplate());
         }
         dto.link = site.getLink();
@@ -56,18 +56,18 @@ public class SiteMapper {
         dto.eventUrlType = site.getEventUrlType().name();
         dto.contentType = site.getContentType().getType();
         List<EventDto> dtos = new ArrayList<>();
-        for(Event event : site.getEvents()){
+        for (Event event : site.getEvents()) {
             dtos.add(eventMapper.toDto(event));
         }
         dto.events = dtos;
         return dto;
     }
-    
-    public SiteTemplate toDomain(SiteDto dto){
+
+    public SiteTemplate toDomain(SiteDto dto) {
         SiteTemplate site;
-        if(dto.id == null || dto.id == -1){
+        if (dto.id == null || dto.id == -1) {
             site = new SiteTemplate();
-        }else{
+        } else {
             site = (SiteTemplate) siteDao.getById(dto.id);
         }
         site.setName(dto.name);
@@ -79,5 +79,5 @@ public class SiteMapper {
         site.getItemTemplate().setHostSite(site);
         return site;
     }
-    
+
 }

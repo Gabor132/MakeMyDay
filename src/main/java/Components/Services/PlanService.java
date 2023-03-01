@@ -23,25 +23,25 @@ import org.springframework.stereotype.Service;
  */
 @Service("planService")
 public class PlanService {
-    
+
     @Autowired
     public EventDao eventService;
-    
+
     @Autowired
     public PlanDao planDao;
-    
+
     @Autowired
     public UserService userService;
-    
-    public Plan getPlanById(Long id){
+
+    public Plan getPlanById(Long id) {
         return (Plan) planDao.getById(id);
     }
-    
-    public List<Plan> getPlans(HttpHeaders headers){
+
+    public List<Plan> getPlans(HttpHeaders headers) {
         return userService.getByHeader(headers).getPlans();
     }
-    
-    public List<Plan> getPlansByDate(HttpHeaders headers, Date date){
+
+    public List<Plan> getPlansByDate(HttpHeaders headers, Date date) {
         List<Plan> list = userService.getByHeader(headers).getPlans();
         Calendar wantedDate = Calendar.getInstance();
         wantedDate.setTime(date);
@@ -49,26 +49,26 @@ public class PlanService {
         wantedDate.set(Calendar.MINUTE, 0);
         wantedDate.set(Calendar.SECOND, 0);
         wantedDate.set(Calendar.MILLISECOND, 0);
-        for(int index = 0; index < list.size(); index++){
+        for (int index = 0; index < list.size(); index++) {
             Calendar givenDate = Calendar.getInstance();
             givenDate.setTime(list.get(index).getDay());
             givenDate.set(Calendar.HOUR, 0);
             givenDate.set(Calendar.MINUTE, 0);
             givenDate.set(Calendar.SECOND, 0);
             givenDate.set(Calendar.MILLISECOND, 0);
-            if(!wantedDate.equals(givenDate)){
+            if (!wantedDate.equals(givenDate)) {
                 list.remove(index);
                 index--;
             }
         }
         return list;
     }
-    
-    public List<Plan> getPlansByDate(Calendar date){
+
+    public List<Plan> getPlansByDate(Calendar date) {
         return planDao.getPlanByDate(date.getTime());
     }
-    
-    public boolean isEventFitForPlan(Event event, Plan plan){
+
+    public boolean isEventFitForPlan(Event event, Plan plan) {
         Calendar wantedDate = Calendar.getInstance();
         wantedDate.setTime(event.getDate());
         wantedDate.set(Calendar.HOUR, 0);
@@ -86,26 +86,26 @@ public class PlanService {
         Date b = givenDate.getTime();
         return wantedDate.equals(givenDate);
     }
-    
-    public Response savePlan(Plan plan){
+
+    public Response savePlan(Plan plan) {
         boolean succes = planDao.save(plan);
-        if(succes){
+        if (succes) {
             return Response.SUCCESFULL_POST;
         }
         return Response.UNSUCCCESFULL_POST;
     }
-    
-    public Response updatePlan(Plan plan){
+
+    public Response updatePlan(Plan plan) {
         boolean succes = planDao.update(plan);
-        if(succes){
+        if (succes) {
             return Response.SUCCESFULL_PUT;
         }
         return Response.UNSUCCESFULL_PUT;
     }
-    
-    public Response deletePlanEvents(String email, Event event){
+
+    public Response deletePlanEvents(String email, Event event) {
         boolean succes = planDao.deleteEventFromPlans(email, event);
-        if(succes){
+        if (succes) {
             return Response.SUCCESFULL_DELETE;
         }
         return Response.UNSUCCESFULL_DELETE;

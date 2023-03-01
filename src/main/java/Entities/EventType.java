@@ -27,20 +27,18 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "EVENT_TYPES")
-@NamedQueries({
-    @NamedQuery(name="EventType.findAll", query = "SELECT e FROM EventType e"),
-    @NamedQuery(name="EventType.findById", query = "SELECT e FROM EventType e WHERE e.id = :id"),
-    @NamedQuery(name="EventType.findByType", query = "SELECT e FROM EventType e WHERE e.type = :type")
-})
+@NamedQueries({ @NamedQuery(name = "EventType.findAll", query = "SELECT e FROM EventType e"),
+        @NamedQuery(name = "EventType.findById", query = "SELECT e FROM EventType e WHERE e.id = :id"),
+        @NamedQuery(name = "EventType.findByType", query = "SELECT e FROM EventType e WHERE e.type = :type") })
 public class EventType implements Serializable, DBEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name = "ID")
     private Long id;
-    
+
     @Column(name = "TYPE")
     private String type;
-    
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "type")
     private Set<EventTypeWord> percentages = new HashSet<>();
 
@@ -92,5 +90,5 @@ public class EventType implements Serializable, DBEntity {
         }
         return true;
     }
-    
+
 }

@@ -24,27 +24,27 @@ import javax.persistence.Table;
  * @author Dragos
  */
 @Entity
-@Table(name="ITEM_TEMPLATES")
+@Table(name = "ITEM_TEMPLATES")
 public class ItemTemplate implements Serializable, DBEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name = "ID")
     private Long id;
-    
+
     /**
      * This might have to be the class name of the template root
      */
-    @Column(name="NAME")
+    @Column(name = "NAME")
     private String name;
 
     @OneToOne
-    @JoinColumn(name="SITE_ID")
+    @JoinColumn(name = "SITE_ID")
     private SiteTemplate hostSite;
-    
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "hostItem", cascade = CascadeType.ALL)
     private List<ItemClass> classes;
-    
+
     public String getName() {
         return name;
     }
@@ -76,5 +76,5 @@ public class ItemTemplate implements Serializable, DBEntity {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
 }

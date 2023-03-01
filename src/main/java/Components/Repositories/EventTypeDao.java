@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Component
-public class EventTypeDao extends EntityDao{
+public class EventTypeDao extends EntityDao {
 
     @Transactional
     @Override
@@ -30,9 +30,8 @@ public class EventTypeDao extends EntityDao{
         return entityManager.find(EventType.class, id);
     }
 
-    
     @Transactional
-    public List<EventType> getAllEventTypes(){
+    public List<EventType> getAllEventTypes() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         TypedQuery<EventType> query = entityManager.createNamedQuery("EventType.findAll", EventType.class);
@@ -41,23 +40,24 @@ public class EventTypeDao extends EntityDao{
         entityManager.close();
         return list;
     }
-    
+
     @Transactional
-    public EventType getEventByType(String typeValue){
+    public EventType getEventByType(String typeValue) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<EventType> query = entityManager.createNamedQuery("EventType.findByType", EventType.class);
         query.setParameter("type", typeValue);
         EventType result = null;
-        try{
+        try {
             result = query.getSingleResult();
-        }catch(NoResultException ex){
+        } catch (NoResultException ex) {
         }
         return result;
     }
-    
+
     @Override
     public boolean update(DBEntity newObject) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
+                                                                       // Tools | Templates.
     }
-    
+
 }

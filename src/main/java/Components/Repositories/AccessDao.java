@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Component
-public class AccessDao extends EntityDao{
+public class AccessDao extends EntityDao {
 
     @Transactional
     @Override
@@ -29,16 +29,16 @@ public class AccessDao extends EntityDao{
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         return entityManager.find(AccessLog.class, id);
     }
-    
+
     @Transactional
-    public AccessLog getByUser(User user){
+    public AccessLog getByUser(User user) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<AccessLog> query = entityManager.createNamedQuery("AccessLog.findByUser", AccessLog.class);
         query.setParameter("user", user);
-        try{
+        try {
             AccessLog accessLog = query.getSingleResult();
             return accessLog;
-        }catch(NoResultException ex){
+        } catch (NoResultException ex) {
             return null;
         }
     }
@@ -58,7 +58,7 @@ public class AccessDao extends EntityDao{
         entityManager.close();
         return true;
     }
-    
+
     @Transactional
     @Override
     public boolean save(DBEntity object) {
@@ -71,5 +71,5 @@ public class AccessDao extends EntityDao{
         entityManager.close();
         return true;
     }
-    
+
 }

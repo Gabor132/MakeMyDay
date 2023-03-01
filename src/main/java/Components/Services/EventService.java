@@ -32,16 +32,16 @@ import org.springframework.stereotype.Service;
  */
 @Service("eventService")
 public class EventService {
-    
+
     @Autowired
     public EventDao eventDao;
-    
+
     @Autowired
     public EventTypeService eventTypeService;
-    
+
     private static final HashMap<Character, Character> DIACRITICS_MAP;
-    
-    static{
+
+    static {
         DIACRITICS_MAP = new HashMap<>();
         DIACRITICS_MAP.put('ă', 'a');
         DIACRITICS_MAP.put('â', 'a');
@@ -54,12 +54,12 @@ public class EventService {
         DIACRITICS_MAP.put('Ș', 'S');
         DIACRITICS_MAP.put('Ț', 'T');
     }
-    
-    public List<Event> getEvents(int day, int month, int year, int start, int finish, String type){
+
+    public List<Event> getEvents(int day, int month, int year, int start, int finish, String type) {
         EventType typeEvent;
-        try{
+        try {
             typeEvent = eventTypeService.getEventType(type);
-        }catch(IllegalArgumentException ex){
+        } catch (IllegalArgumentException ex) {
             typeEvent = null;
         }
         Calendar auxDate = Calendar.getInstance();
@@ -74,65 +74,65 @@ public class EventService {
         List<Event> events = eventDao.getEventByFilter(typeEvent, startD, finishD);
         return events;
     }
-    
-    public List<Event> getEventsToday(String type){
+
+    public List<Event> getEventsToday(String type) {
         EventType typeEvent;
         List<Event> events;
-        try{
+        try {
             Calendar today = Calendar.getInstance();
             Date startD = today.getTime();
             today.add(Calendar.DAY_OF_MONTH, 1);
             Date finishD = today.getTime();
             typeEvent = eventTypeService.getEventType(type);
             events = eventDao.getEventByFilter(typeEvent, startD, finishD);
-        }catch(IllegalArgumentException ex){
+        } catch (IllegalArgumentException ex) {
             events = eventDao.getAllEvents().subList(0, 10);
         }
         return events;
     }
-    
-    public List<Event> getEvents(String type){
+
+    public List<Event> getEvents(String type) {
         EventType typeEvent;
         List<Event> events;
-        try{
+        try {
             typeEvent = eventTypeService.getEventType(type);
             events = eventDao.getEventByType(typeEvent);
-        }catch(IllegalArgumentException ex){
+        } catch (IllegalArgumentException ex) {
             events = eventDao.getAllEvents();
         }
         return events;
     }
-    
-    public Event getEventById(Long id){
+
+    public Event getEventById(Long id) {
         return (Event) eventDao.getById(id);
     }
-    
-    public Event getEventByName(String name){
+
+    public Event getEventByName(String name) {
         return (Event) eventDao.getEventByName(name);
     }
-    
-    public Event getEventByType(String type){
-        return (Event)eventDao.getEventByType(eventTypeService.getEventType(type));
+
+    public Event getEventByType(String type) {
+        return (Event) eventDao.getEventByType(eventTypeService.getEventType(type));
     }
-    
-    public List<Event> getAllEvents(){
+
+    public List<Event> getAllEvents() {
         return eventDao.getAllEvents();
     }
-    
-    public List<Event> getAllDeterminedEvents(){
+
+    public List<Event> getAllDeterminedEvents() {
         return eventDao.getAllDetermentEvents();
     }
-    
-    public boolean saveEvents(List<Event> events){
-        for(Event event : events){
-            if(event.isUsable()){
+
+    public boolean saveEvents(List<Event> events) {
+        for (Event event : events) {
+            if (event.isUsable()) {
                 eventDao.save(event);
             }
         }
         return true;
     }
-    
-    public ArrayList<List<Event>> groupEventsByDate(List<Event> events){
+
+    public ArrayList<List<Event>> groupEventsByDate(List<Event> events) {
         events.sort(new Comparator<Event>() {
             @Override
             public int compare(Event o1, Event o2) {
@@ -141,65 +141,65 @@ public class EventService {
         });
         ArrayList<List<Event>> eventGroups = new ArrayList<>();
         ArrayList<Event> groupEvent = new ArrayList<>();
-        for(int index = 0; index < events.size()-1; index++){
-            if(events.get(index).getDate().compareTo(events.get(index+1).getDate()) == 0){
+        for (int index = 0; index < events.size() - 1; index++) {
+            if (events.get(index).getDate().compareTo(events.get(index + 1).getDate()) == 0) {
                 groupEvent.add(events.get(index));
-            }else{
+            } else {
                 groupEvent.add(events.get(index));
-                eventGroups.add((ArrayList<Event>)groupEvent.clone());
+                eventGroups.add((ArrayList<Event>) groupEvent.clone());
                 groupEvent.clear();
             }
         }
-        if(events.size() > 0){
-            groupEvent.add(events.get(events.size()-1));
-            eventGroups.add((ArrayList<Event>)groupEvent.clone());
+        if (events.size() > 0) {
+            groupEvent.add(events.get(events.size() - 1));
+            eventGroups.add((ArrayList<Event>) groupEvent.clone());
         }
         return eventGroups;
     }
-    
-    public boolean deleteAllEvents(){
+
+    public boolean deleteAllEvents() {
         return eventDao.deleteAllEvents();
     }
-    
-    public boolean deleteAllExpiredEvents(){
+
+    public boolean deleteAllExpiredEvents() {
         return eventDao.deleteAllExpiredEvents();
     }
-    
-    public Response deleteEvent(Long id){
+
+    public Response deleteEvent(Long id) {
         boolean succes = eventDao.delete(Event.class, id);
-        if(succes){
+        if (succes) {
             return Response.SUCCESFULL_DELETE;
         }
         return Response.UNSUCCESFULL_DELETE;
     }
-    
-    public void determineEventTypes(List<Event> events){
+
+    public void determineEventTypes(List<Event> events) {
         Logger.getLogger(EventService.class.getTypeName()).log(Level.INFO, "Started event type determination");
         List<EventType> eventTypes = eventTypeService.getAllEventTypes();
         List<Event> filteredEvents = new LinkedList<>();
-        for(Event e : events){
-            if(e.getType().getType().equals("ALTELE"))
+        for (Event e : events) {
+            if (e.getType().getType().equals("ALTELE"))
                 filteredEvents.add(e);
         }
-        for(Event event : filteredEvents){
+        for (Event event : filteredEvents) {
             determineEventType(event, eventTypes);
         }
         Logger.getLogger(EventService.class.getTypeName()).log(Level.INFO, "Finished event type determination");
     }
-    
-    private void determineEventType(Event event, List<EventType> eventTypes){
+
+    private void determineEventType(Event event, List<EventType> eventTypes) {
         HashMap<EventType, Pair<Integer, Double>> percentageSum = new HashMap<>();
-        for(EventType type : eventTypes){
-            for(EventTypeWord etw : type.getPercentages()){
+        for (EventType type : eventTypes) {
+            for (EventTypeWord etw : type.getPercentages()) {
                 String word = etw.getWord().getWord();
                 double percentage = etw.getPercentage();
-                if(stringContainsWord(event.getContent(), word)){
-                    if(percentageSum.containsKey(type)){
+                if (stringContainsWord(event.getContent(), word)) {
+                    if (percentageSum.containsKey(type)) {
                         Integer numSum = percentageSum.get(type).getKey() + 1;
                         Double per = percentageSum.get(type).getValue() + percentage;
                         percentageSum.put(type, new Pair<>(numSum, per));
-                    }else{
-                        percentageSum.put(type, new Pair<>(1,percentage));
+                    } else {
+                        percentageSum.put(type, new Pair<>(1, percentage));
                     }
                 }
             }
@@ -207,52 +207,55 @@ public class EventService {
         EventType bestType = null;
         double max = 0.0;
         Random random = new Random();
-        for(EventType type : percentageSum.keySet()){
-            double percentage = percentageSum.get(type).getValue()/percentageSum.get(type).getKey();
-            if(percentage > max){
+        for (EventType type : percentageSum.keySet()) {
+            double percentage = percentageSum.get(type).getValue() / percentageSum.get(type).getKey();
+            if (percentage > max) {
                 bestType = type;
                 max = percentage;
-            }else if(percentage == max){
-                if(random.nextBoolean()){
+            } else if (percentage == max) {
+                if (random.nextBoolean()) {
                     bestType = type;
                 }
             }
         }
-        if(max != 0){
+        if (max != 0) {
             event.setType(bestType);
-            Logger.getLogger(EventService.class.getTypeName()).log(Level.INFO, "Event {0} type is changed to {1}", new Object[]{event.getName(), bestType.getType()});
-        }else{
-            Logger.getLogger(EventService.class.getTypeName()).log(Level.INFO, "Event {0} type is left to ALTELE", event.getName());
+            Logger.getLogger(EventService.class.getTypeName()).log(Level.INFO, "Event {0} type is changed to {1}",
+                    new Object[] { event.getName(), bestType.getType() });
+        } else {
+            Logger.getLogger(EventService.class.getTypeName()).log(Level.INFO, "Event {0} type is left to ALTELE",
+                    event.getName());
         }
     }
-    
-    public boolean eventContainsWord(Event event, String word){
+
+    public boolean eventContainsWord(Event event, String word) {
         return stringContainsWord(event.getContent(), word);
     }
-    
-    private boolean stringContainsWord(String eventContent, String word){
-        Pattern pattern = Pattern.compile("^(.*?(\\b"+word+"\\b)[^$]*)$");
+
+    private boolean stringContainsWord(String eventContent, String word) {
+        Pattern pattern = Pattern.compile("^(.*?(\\b" + word + "\\b)[^$]*)$");
         Matcher matcher = pattern.matcher(eventContent);
         return matcher.find();
     }
-    
+
     /**
      * This function replaces all the diacritics of an event with there proper characters (ă = a)
-     * @param events 
+     *
+     * @param events
      */
-    public void replaceDiacritics(List<Event> events){
-        for(Event event:events){
+    public void replaceDiacritics(List<Event> events) {
+        for (Event event : events) {
             event.setName(replaceDiacritics(event.getName()));
             event.setAddress(replaceDiacritics(event.getAddress()));
             event.setDescription(replaceDiacritics(event.getDescription()));
             event.setPrice(replaceDiacritics(event.getPrice()));
         }
     }
-    
-    private String replaceDiacritics(String string){
-        if(string == null)
+
+    private String replaceDiacritics(String string) {
+        if (string == null)
             return "";
-        for(Character diacritic : DIACRITICS_MAP.keySet()){
+        for (Character diacritic : DIACRITICS_MAP.keySet()) {
             string = string.replaceAll(diacritic.toString(), DIACRITICS_MAP.get(diacritic).toString());
         }
         return string;

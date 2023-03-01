@@ -10,5 +10,5 @@ package Enums;
  * @author Dragos
  */
 public enum UserType {
-    ADMIN,NORMAL,UNCONFIRMED
+    ADMIN, NORMAL, UNCONFIRMED
 }

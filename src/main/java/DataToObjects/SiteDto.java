@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Dragos
  */
-public class SiteDto extends DataDto implements Serializable{
+public class SiteDto extends DataDto implements Serializable {
     public Long id;
     public String name;
     public String eventUrlType;

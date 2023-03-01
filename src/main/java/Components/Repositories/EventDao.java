@@ -26,90 +26,89 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Component
-public class EventDao extends EntityDao{
-    
+public class EventDao extends EntityDao {
+
     @Transactional
     @Override
     public DBEntity getById(Long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         return entityManager.find(Event.class, id);
     }
-    
+
     @Transactional
-    public List<Event> getAllEvents(){
+    public List<Event> getAllEvents() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<Event> query = entityManager.createNamedQuery("Event.findAll", Event.class);
         return query.getResultList();
     }
-    
+
     @Transactional
-    public List<Event> getAllDetermentEvents(){
+    public List<Event> getAllDetermentEvents() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<Event> query = entityManager.createNamedQuery("Event.findDetermined", Event.class);
         return query.getResultList();
     }
-    
-    
+
     @Transactional
-    public Event getEventById(Long id){
+    public Event getEventById(Long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<Event> query = entityManager.createNamedQuery("Event.findById", Event.class);
         query.setParameter("id", id);
         return query.getSingleResult();
     }
-    
+
     @Transactional
-    public List<Event> getEventByName(String name){
+    public List<Event> getEventByName(String name) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<Event> query = entityManager.createNamedQuery("Event.findByName", Event.class);
         query.setParameter("name", name);
         return query.getResultList();
     }
-    
+
     @Transactional
-    public List<Event> getEventByType(EventType type){
+    public List<Event> getEventByType(EventType type) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<Event> query = entityManager.createNamedQuery("Event.findByType", Event.class);
         query.setParameter("type", type.getType());
         return query.getResultList();
     }
-    
+
     @Transactional
-    public List<Event> getEventByFilter(EventType type, Date start, Date finish){
+    public List<Event> getEventByFilter(EventType type, Date start, Date finish) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<Event> query;
-        if(type != null){
+        if (type != null) {
             query = entityManager.createNamedQuery("Event.findByFilter", Event.class);
             query.setParameter("type", type);
-        }else{
+        } else {
             query = entityManager.createNamedQuery("Event.findByFilterAny", Event.class);
         }
         query.setParameter("start", start);
         query.setParameter("finish", finish);
         return query.getResultList();
     }
-    
+
     @Transactional
-    public boolean deleteAllEvents(){
+    public boolean deleteAllEvents() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         Query query = entityManager.createQuery("DELETE FROM Plan p where 1 = 1");
         int result = query.executeUpdate();
-        if(result > 0){
+        if (result > 0) {
             Logger.getLogger(EventDao.class).log(Logger.Level.INFO, "DELETED ALL PLANS");
         }
         query = entityManager.createQuery("DELETE FROM Event e where 1 = 1");
         result = query.executeUpdate();
-        if(result > 0){
+        if (result > 0) {
             Logger.getLogger(EventDao.class).log(Logger.Level.INFO, "DELETED ALL EVENTS");
         }
         entityManager.getTransaction().commit();
         entityManager.close();
         return result > 0;
     }
-    
+
     @Transactional
-    public boolean deleteAllExpiredEvents(){
+    public boolean deleteAllExpiredEvents() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         Calendar calendar = Calendar.getInstance();
@@ -124,20 +123,22 @@ public class EventDao extends EntityDao{
 
     @Override
     public boolean update(DBEntity newObject) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
+                                                                       // Tools | Templates.
     }
+
     @Transactional
     @Override
-    public boolean save(DBEntity object){
+    public boolean save(DBEntity object) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try{
+        try {
             entityManager.getTransaction().begin();
             Event event = (Event) object;
             event.setType(entityManager.find(EventType.class, event.getType().getId()));
             entityManager.persist(event);
             entityManager.getTransaction().commit();
             entityManager.close();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             Logger.getLogger(EventDao.class).log(Logger.Level.WARN, ex);
             entityManager.getTransaction().rollback();
             entityManager.close();
@@ -145,5 +146,5 @@ public class EventDao extends EntityDao{
         }
         return true;
     }
-    
+
 }

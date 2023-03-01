@@ -9,4 +9,5 @@ package Entities;
  *
  * @author Dragos
  */
-public interface DBEntity {}
+public interface DBEntity {
+}

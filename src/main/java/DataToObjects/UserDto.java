@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Dragos
  */
-public class UserDto extends DataDto implements Serializable{
+public class UserDto extends DataDto implements Serializable {
     public Long id;
     public String email;
     public String password;

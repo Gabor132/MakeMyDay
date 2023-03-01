@@ -32,43 +32,41 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "SITE_TEMPLATES")
-@NamedQueries({
-    @NamedQuery(name="SiteTemplate.findAll", query = "SELECT s FROM SiteTemplate s"),
-    @NamedQuery(name="SiteTemplate.findByName", query = "SELECT s FROM SiteTemplate s WHERE s.name = :name"),
-    @NamedQuery(name="SiteTemplate.deleteById", query = "DELETE FROM SiteTemplate s WHERE s.id = :id")
-})
+@NamedQueries({ @NamedQuery(name = "SiteTemplate.findAll", query = "SELECT s FROM SiteTemplate s"),
+        @NamedQuery(name = "SiteTemplate.findByName", query = "SELECT s FROM SiteTemplate s WHERE s.name = :name"),
+        @NamedQuery(name = "SiteTemplate.deleteById", query = "DELETE FROM SiteTemplate s WHERE s.id = :id") })
 public class SiteTemplate implements Serializable, DBEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name = "ID")
     private Long id;
 
-    @Column(name="NAME")
+    @Column(name = "NAME")
     @NotNull
     private String name;
-    
+
     @Enumerated(EnumType.STRING)
-    @Column(name="EVENT_URL_TYPE")
+    @Column(name = "EVENT_URL_TYPE")
     @NotNull
     private EventUrlType eventUrlType;
-    
+
     @ManyToOne()
     @JoinColumn(name = "CONTENT_TYPE")
     private EventType contentType;
-    
-    @Column(name="LINK")
+
+    @Column(name = "LINK")
     @NotNull
     private String link;
-    
-    @Column(name="DATE_FORMAT")
+
+    @Column(name = "DATE_FORMAT")
     @NotNull
     private String dateFormat;
-    
+
     @OneToOne(mappedBy = "hostSite", cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
     private ItemTemplate itemTemplate;
-    
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "hostSite", cascade = CascadeType.ALL)
     private List<Event> events;
 
@@ -103,12 +101,12 @@ public class SiteTemplate implements Serializable, DBEntity {
     public void setLink(String link) {
         this.link = link;
     }
-    
-    public String getDateFormat(){
+
+    public String getDateFormat() {
         return dateFormat;
     }
-    
-    public void setDateFormat(String dateFormat){
+
+    public void setDateFormat(String dateFormat) {
         this.dateFormat = dateFormat;
     }
 
@@ -134,5 +132,5 @@ public class SiteTemplate implements Serializable, DBEntity {
 
     public void setId(Long id) {
         this.id = id;
-    }    
+    }
 }

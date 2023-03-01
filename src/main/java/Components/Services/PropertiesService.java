@@ -17,28 +17,30 @@ import org.springframework.core.io.ClassPathResource;
  * @author Dragos
  */
 public class PropertiesService {
-    
-    public enum PropertiesPath{
-        MAIL_PROPERTIES("mail.properties"),
-        PHANTOMJS_PROPERTIES("phantomJS.properties");
+
+    public enum PropertiesPath {
+        MAIL_PROPERTIES("mail.properties"), PHANTOMJS_PROPERTIES("phantomJS.properties");
+
         private final String PATH;
-        private PropertiesPath(String path){
+
+        private PropertiesPath(String path) {
             this.PATH = path;
         }
-        public String getPath(){
+
+        public String getPath() {
             return this.PATH;
         }
     }
-    
-    public static Properties getPropertiesFrom(PropertiesPath fileName){
+
+    public static Properties getPropertiesFrom(PropertiesPath fileName) {
         Properties prop = new Properties();
-	InputStream input = null;
-	try {
+        InputStream input = null;
+        try {
             input = new FileInputStream((new ClassPathResource(fileName.PATH)).getFile());
             prop.load(input);
-	} catch (IOException io) {
-            Logger.getLogger(PropertiesService.class.getName()).log(Logger.Level.FATAL, io.getMessage());        
-	} finally {
+        } catch (IOException io) {
+            Logger.getLogger(PropertiesService.class.getName()).log(Logger.Level.FATAL, io.getMessage());
+        } finally {
             if (input != null) {
                 try {
                     input.close();
@@ -46,8 +48,8 @@ public class PropertiesService {
                     Logger.getLogger(PropertiesService.class.getName()).log(Logger.Level.FATAL, e.getMessage());
                 }
             }
-	}
+        }
         return prop;
     }
-    
+
 }

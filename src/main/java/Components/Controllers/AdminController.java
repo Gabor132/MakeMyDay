@@ -42,74 +42,74 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Dragos
  */
 @RestController
-public class AdminController{
-    
+public class AdminController {
+
     @Autowired
     public EventMapper eventMapper;
-    
+
     @Autowired
     public UserMapper userMapper;
-    
+
     @Autowired
     public SiteMapper siteMapper;
-    
+
     @Autowired
     public SiteService siteService;
-    
+
     @Autowired
     public EventService eventService;
-    
+
     @Autowired
     public AccessLogService accessLogService;
-    
+
     @Autowired
     public UserService userService;
-    
+
     @Autowired
     public EventTypeService eventTypeService;
-    
+
     @Autowired
     public HtmlParser htmlParser;
-    
+
     @RequestMapping("/admin")
-    public ModelAndView getAdmin(@RequestHeader HttpHeaders headers){
+    public ModelAndView getAdmin(@RequestHeader HttpHeaders headers) {
         return new ModelAndView("admin");
     }
-    
+
     @RequestMapping(value = "admin/user", method = RequestMethod.GET)
-    public ResponseDto getAllUsers(){
+    public ResponseDto getAllUsers() {
         List<DataDto> dtos = new ArrayList<>();
-        for(User user : userService.getAllUsers()){
+        for (User user : userService.getAllUsers()) {
             dtos.add(userMapper.toDto(user));
         }
         return new ResponseDto(Response.SUCCESFULL_GET, dtos);
     }
-    
+
     @RequestMapping(value = "admin/user", method = RequestMethod.DELETE)
-    public ResponseDto deleteUser(@RequestBody Long id){
+    public ResponseDto deleteUser(@RequestBody Long id) {
         return new ResponseDto(userService.deleteUser(id));
     }
-    
+
     @RequestMapping(value = "admin/event/{id}", method = RequestMethod.GET)
-    public ResponseDto getEventById(Long id){
+    public ResponseDto getEventById(Long id) {
         DataDto data = eventMapper.toDto((eventService.getEventById(id)));
         return new ResponseDto(Response.SUCCESFULL_GET, Arrays.asList(data));
     }
-    
+
     @RequestMapping(value = "admin/event/name/{name}", method = RequestMethod.GET)
-    public ResponseDto getEventByName(String name){
+    public ResponseDto getEventByName(String name) {
         DataDto data = eventMapper.toDto(eventService.getEventByName(name));
         return new ResponseDto(Response.SUCCESFULL_GET, Arrays.asList(data));
     }
-    
+
     @RequestMapping(value = "admin/event/type/{type}", method = RequestMethod.GET)
-    public ResponseDto getEventByType(String type){
+    public ResponseDto getEventByType(String type) {
         DataDto data = eventMapper.toDto(eventService.getEventByType(type));
         return new ResponseDto(Response.SUCCESFULL_GET, Arrays.asList(data));
     }
-    
+
     @RequestMapping(value = "admin/event", method = RequestMethod.GET)
-    public ResponseDto getAllEvents(){
+    public ResponseDto getAllEvents() {
         List<DataDto> dtos = new ArrayList<>();
         List<Event> events = eventService.getAllEvents();
         events.sort(new Comparator<Event>() {
@@ -118,69 +118,71 @@ public class AdminController{
                 return o1.getDate().compareTo(o2.getDate());
             }
         });
-        for(Event event : events){
+        for (Event event : events) {
             dtos.add(eventMapper.toDto(event));
         }
         return new ResponseDto(Response.SUCCESFULL_GET, dtos);
     }
-    
+
     @RequestMapping(value = "admin/event", method = RequestMethod.DELETE)
-    public ResponseDto deleteEvent(@RequestBody Long id){
+    public ResponseDto deleteEvent(@RequestBody Long id) {
         return new ResponseDto(eventService.deleteEvent(id));
     }
-    
+
     @RequestMapping(value = "admin/site", method = RequestMethod.GET)
-    public ResponseDto getAllSites(){
+    public ResponseDto getAllSites() {
         List<DataDto> dtos = new ArrayList<>();
-        for(SiteTemplate site : siteService.getAllSites()){
+        for (SiteTemplate site : siteService.getAllSites()) {
             dtos.add(siteMapper.toDto(site));
         }
         return new ResponseDto(Response.SUCCESFULL_GET, dtos);
     }
-    
+
     @RequestMapping(value = "admin/site", method = RequestMethod.POST)
-    public ResponseDto saveSite(@RequestBody SiteDto dto){
-        try{
+    public ResponseDto saveSite(@RequestBody SiteDto dto) {
+        try {
             SiteTemplate site = siteMapper.toDomain(dto);
-            if(dto.id == -1 || dto.id == null){
+            if (dto.id == -1 || dto.id == null) {
                 siteService.saveSite(site);
-            }else{
+            } else {
                 siteService.updateSite(site);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             Logger.getLogger(AdminController.class).trace(e);
             return new ResponseDto(false, e.toString());
         }
         return new ResponseDto(Response.SUCCESFULL_POST);
     }
-    
+
     @RequestMapping(value = "admin/site", method = RequestMethod.DELETE)
-    public ResponseDto deleteSite(@RequestBody SiteDto dto){
+    public ResponseDto deleteSite(@RequestBody SiteDto dto) {
         siteService.deleteSite(dto.id);
         return new ResponseDto(Response.SUCCESFULL_DELETE);
     }
-    
+
     /**
      * The request used to test the SiteTemplate of an added site
+     *
      * @param id
+     *
      * @return {ResponseDto}
      */
     @RequestMapping(value = "admin/site/test/{id}", method = RequestMethod.GET)
-    public ResponseDto testSite(@PathVariable Long id){
+    public ResponseDto testSite(@PathVariable Long id) {
         SiteTemplate site = siteService.getById(id);
         List<DataDto> data = new LinkedList<>();
         List<Event> events = htmlParser.parse(site);
-        for(Event e : events){
+        for (Event e : events) {
             data.add(eventMapper.toDto(e));
         }
         return new ResponseDto(Response.SUCCESFULL_GET, data);
     }
-    
+
     @RequestMapping(value = "admin/site/banana", method = RequestMethod.GET)
-    public ResponseDto gatherEvents(){
+    public ResponseDto gatherEvents() {
         eventService.deleteAllEvents();
         htmlParser.scheduledSearch();
         return new ResponseDto(Response.STANDARD_SUCCESS);
     }
-    
+
 }

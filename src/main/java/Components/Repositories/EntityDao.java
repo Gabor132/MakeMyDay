@@ -20,33 +20,33 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Component
 public abstract class EntityDao {
-    
+
     @PersistenceUnit
     public EntityManagerFactory entityManagerFactory;
-    
+
     public abstract DBEntity getById(Long id);
-    
+
     @Transactional
     public boolean save(DBEntity object) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        if(entityManager.contains(object)){
+        if (entityManager.contains(object)) {
             entityManager.merge(object);
-        }else{
+        } else {
             entityManager.persist(object);
         }
         entityManager.getTransaction().commit();
         entityManager.close();
         return true;
     }
-    
+
     @Transactional
     public abstract boolean update(DBEntity newObject);
-    
+
     @Transactional
     public boolean delete(Class targetClass, long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        DBEntity object = (DBEntity) entityManager.find(targetClass,id);
+        DBEntity object = (DBEntity) entityManager.find(targetClass, id);
         entityManager.getTransaction().begin();
         entityManager.refresh(object);
         entityManager.remove(object);

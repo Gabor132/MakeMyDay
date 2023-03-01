@@ -12,8 +12,8 @@ import java.util.Date;
  *
  * @author Dragos
  */
-public class EventDto extends DataDto implements Serializable{
-    
+public class EventDto extends DataDto implements Serializable {
+
     public Long id;
     public String name;
     public String type;
@@ -24,5 +24,5 @@ public class EventDto extends DataDto implements Serializable{
     public String price;
     public String description;
     public String link;
-    
+
 }

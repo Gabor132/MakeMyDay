@@ -28,23 +28,23 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "ACCESS_LOGS")
-@NamedQuery(name="AccessLog.findByUser", query = "SELECT a FROM AccessLog a where a.user = :user and a.expirationTime > sysdate()")
-public class AccessLog implements Serializable, DBEntity{
+@NamedQuery(name = "AccessLog.findByUser", query = "SELECT a FROM AccessLog a where a.user = :user and a.expirationTime > sysdate()")
+public class AccessLog implements Serializable, DBEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name = "ID")
     private Long id;
-    
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = User.class)
-    @JoinColumn(name="USER_ID")
+    @JoinColumn(name = "USER_ID")
     private User user;
-    
-    @Column(name="TOKEN")
+
+    @Column(name = "TOKEN")
     @NotNull
     private String token;
-    
-    @Column(name="EXPIRATION_TIMESTAMP")
+
+    @Column(name = "EXPIRATION_TIMESTAMP")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date expirationTime;
 
@@ -79,6 +79,5 @@ public class AccessLog implements Serializable, DBEntity{
     public void setExpirationTime(Date expirationTime) {
         this.expirationTime = expirationTime;
     }
-    
-    
+
 }

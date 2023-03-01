@@ -17,16 +17,16 @@ import org.springframework.stereotype.Service;
  */
 @Service("eventTypeService")
 public class EventTypeService {
-    
+
     @Autowired
     public EventTypeDao eventTypeDao;
-    
-    public EventType getEventType(String value){
+
+    public EventType getEventType(String value) {
         return eventTypeDao.getEventByType(value);
     }
-    
-    public List<EventType> getAllEventTypes(){
+
+    public List<EventType> getAllEventTypes() {
         return eventTypeDao.getAllEventTypes();
     }
-    
+
 }

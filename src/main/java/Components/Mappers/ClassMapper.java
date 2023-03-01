@@ -24,14 +24,14 @@ import org.springframework.stereotype.Service;
 @Service
 @Component
 public class ClassMapper {
-    
+
     @Autowired
     public ItemClassDao itemClassDao;
-    
+
     @Autowired
     public ItemTemplateDao itemTemplateDao;
-    
-    public ItemClassDto toDto(ItemClass item){
+
+    public ItemClassDto toDto(ItemClass item) {
         ItemClassDto dto = new ItemClassDto();
         dto.id = item.getId();
         dto.className = item.getClassName();
@@ -39,37 +39,37 @@ public class ClassMapper {
         dto.valueType = item.getValueType().name();
         dto.valueLocation = item.getValueLocation();
         Set<ItemClassDto> dtos = new HashSet<>();
-        for(ItemClass itemClass : item.getChildren()){
+        for (ItemClass itemClass : item.getChildren()) {
             dtos.add(toDto(itemClass));
         }
         dto.children = dtos;
-        if(item.getParent() != null){
+        if (item.getParent() != null) {
             dto.parent = item.getParent().getId();
         }
         return dto;
     }
-    
-    public ItemClass toDomain(ItemClassDto dto){
+
+    public ItemClass toDomain(ItemClassDto dto) {
         ItemClass item;
-        if(dto.id == null){
+        if (dto.id == null) {
             item = new ItemClass();
-        }else{
+        } else {
             item = (ItemClass) itemClassDao.getById(dto.id);
         }
-        
+
         item.setClassName(dto.className);
         item.setClassType(ClassType.valueOf(dto.classType));
         item.setValueType(ValueType.valueOf(dto.valueType));
         item.setValueLocation(dto.valueLocation);
         Set<ItemClass> dtos = new HashSet<>();
-        for(ItemClassDto aux : dto.children){
+        for (ItemClassDto aux : dto.children) {
             dtos.add(toDomain(aux));
         }
         item.setChildren(dtos);
-        for(ItemClass aux : item.getChildren()){
+        for (ItemClass aux : item.getChildren()) {
             aux.setParent(item);
         }
         return item;
     }
-    
+
 }
