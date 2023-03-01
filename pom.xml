@@ -217,6 +217,24 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>net.revelc.code.formatter</groupId>
+                <artifactId>formatter-maven-plugin</artifactId>
+                <version>2.22.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <lineEnding>KEEP</lineEnding>
+                    <compilerSource>${java.version}</compilerSource>
+                    <compilerCompliance>${java.version}</compilerCompliance>
+                    <compilerTargetPlatform>${java.version}</compilerTargetPlatform>
+                </configuration>
+              </plugin>
         </plugins>
     </build>
 
