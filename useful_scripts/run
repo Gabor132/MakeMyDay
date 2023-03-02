@@ -1,4 +1,6 @@
 #!/bin/sh
 
+cd ..
 mvn clean package
 java $JAVA_OPTS -jar target/endorsed/webapp-runner.jar --port 8080 target/*.war
+cd ./useful_scripts
